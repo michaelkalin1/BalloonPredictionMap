@@ -1,4 +1,4 @@
-let DATA_DIRECTORY = '/assets/data/';
+let DATA_DIRECTORY = 'data/';
 
 let BASE_LAYERS = {
     'Esri Topography': L.tileLayer.provider('Esri.WorldTopoMap'),
@@ -38,7 +38,7 @@ let UNCONTROLLED_AIRSPACE_LAYER = L.geoJson.ajax(DATA_DIRECTORY + 'uncontrolled_
 });
 
 /* asynchronously load launch locations from GeoJSON file */
-let LAUNCH_LOCATIONS_LAYER = L.geoJson.ajax(DATA_DIRECTORY + 'launch_locations.geojson', {
+let LAUNCH_LOCATIONS_LAYER = L.geoJson.ajax('../launch_locations.geojson', {
     'onEachFeature': popupFeaturePropertiesOnClick
 });
 
