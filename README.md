@@ -1,7 +1,7 @@
 # BalloonPredictionMap
 HTML for a client-side Leaflet web map showing CUSF balloon prediction over U.S. restricted airspace.
 
-[![prediction map](https://i.imgur.com/0ORhXjd.png)](http://nearspace.umd.edu/predicts)
+[![prediction map](https://i.imgur.com/XzTPg4M.png)](http://nearspace.umd.edu/predicts)
 
 To customize launch locations, either directly edit `launch_locations.geojson` 
 or set the variable `LAUNCH_LOCATIONS_FILENAME` to a GeoJSON file, where individual launch sites have the following format:
