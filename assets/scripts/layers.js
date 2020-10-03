@@ -1,5 +1,5 @@
 let DATA_DIRECTORY = './assets/data/';
-if (typeof LAUNCH_LOCATIONS_FILENAME === 'undefined' || LAUNCH_LOCATIONS_FILENAME === null) {
+if (typeof LAUNCH_LOCATIONS_FILENAME === 'undefined') {
     var LAUNCH_LOCATIONS_FILENAME = '../../launch_locations.geojson';
 }
 
