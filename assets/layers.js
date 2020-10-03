@@ -1,4 +1,7 @@
 let DATA_DIRECTORY = 'data/';
+if (typeof LAUNCH_LOCATIONS_FILENAME === 'undefined' || LAUNCH_LOCATIONS_FILENAME === null) {
+    var LAUNCH_LOCATIONS_FILENAME = '../launch_locations.geojson';
+}
 
 let BASE_LAYERS = {
     'Esri Topography': L.tileLayer.provider('Esri.WorldTopoMap'),
@@ -38,7 +41,7 @@ let UNCONTROLLED_AIRSPACE_LAYER = L.geoJson.ajax(DATA_DIRECTORY + 'uncontrolled_
 });
 
 /* asynchronously load launch locations from GeoJSON file */
-let LAUNCH_LOCATIONS_LAYER = L.geoJson.ajax('../launch_locations.geojson', {
+let LAUNCH_LOCATIONS_LAYER = L.geoJson.ajax(LAUNCH_LOCATIONS_FILENAME, {
     'onEachFeature': popupFeaturePropertiesOnClick
 });
 
