@@ -1,6 +1,6 @@
-[submodule "assets/leaflet-groupedlayercontrol"]
-	path = assets/leaflet-groupedlayercontrol
+[submodule "assets/scripts/leaflet-groupedlayercontrol"]
+	path = assets/scripts/leaflet-groupedlayercontrol
 	url = https://github.com/AcrossTheCloud/leaflet-groupedlayercontrol.git
-[submodule "assets/tokml"]
-	path = assets/tokml
+[submodule "assets/scripts/tokml"]
+	path = assets/scripts/tokml
 	url = https://github.com/mapbox/tokml.git
