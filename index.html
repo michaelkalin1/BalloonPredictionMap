@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
 
-    <title>UMDBPP - Predicts</title>
-    <link href="#" rel="shortcut icon" type="image/png">
+    <title>Predicts</title>
+    <link href="assets/images/favicon.png" rel="shortcut icon" type="image/png">
 
     <script crossorigin="anonymous" integrity="sha384-bmPowDlt+owc6Mn3LwOzLPkYiVm6MuKeLMe0qN2pp7Fhmux2xtVJm5e+ekpCVv4x"
             src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
@@ -21,47 +21,41 @@
     <script src="assets/scripts/leaflet-groupedlayercontrol/dist/leaflet.groupedlayercontrol.min.js"></script>
     <script src="assets/scripts/tokml/tokml.js"></script>
     <script src="assets/scripts/ajax.js"></script>
+
+    <link href="assets/map.css" rel="stylesheet">
 </head>
 <body>
 <section style="display: flex; justify-content: space-between;">
-    <section style="display: flex; flex-grow: 1; justify-content: space-around;">
-        <section style="display: flex; flex-wrap: wrap; border-style: groove;">
+    <div class="controls" style="flex-grow: 2;">
+        <div class="box labeled_input" style="display: flex; flex-wrap: wrap;">
             <input id="launch_date" onchange="updatePredictLayers()" required="required" title="launch date" type="date">
 
             <input id="launch_time" onchange="updatePredictLayers()" required="required" title="launch time" type="time" value="08:00">
-        </section>
-        <section style="border-style: groove;">
-            <label for="ascent_rate">Ascent Rate (m/s)</label>
+        </div>
+        <div class="box labeled_input">
+            <label for="ascent_rate">Ascent Rate (m/s): </label>
 
             <input id="ascent_rate" onchange="updatePredictLayers()" required="required" style="width: 6ch;" title="expected average ascent rate"
                    type="number" value="5.5">
-        </section>
-        <section style="border-style: groove;">
-            <label for="burst_altitude">Burst Altitude (m)</label>
+        </div>
+        <div class="box labeled_input">
+            <label for="burst_altitude">Burst Altitude (m): </label>
 
             <input id="burst_altitude" onchange="updatePredictLayers()" required="required" style="width: 8ch;" title="expected burst altitude"
                    type="number" value="28000">
-        </section>
-        <section style="border-style: groove;">
-            <label for="sea_level_descent_rate">S.L. Descent Rate (m/s)</label>
+        </div>
+        <div class="box labeled_input">
+            <label for="sea_level_descent_rate">S.L. Descent Rate (m/s): </label>
 
             <input id="sea_level_descent_rate" onchange="updatePredictLayers()" required="required" style="width: 6ch;"
                    title="expected descent rate (at sea level)" type="number" value="9">
-        </section>
+        </div>
         <button id="fetch_button" onclick="updatePredictLayers()" style="background-color: #4caf50; border: none; color: white; font-weight: bold;">
             Fetch
         </button>
-    </section>
-    <section style="display: flex; flex-grow: 1; flex-wrap: wrap; justify-content: flex-end;">
-        <a href="#" onClick="document.location.href=downloadPredictsKML();" style="border-style: groove;">Predicts</a>
-        <a href="#" onClick="document.location.href=downloadURI('/assets/data/controlled_airspace.kmz', 'CONTROLLED_AIRSPACE_LAYER.kmz');"
-           style="border-style: groove;">
-            Airspace
-        </a>
-        <button id="reset_zoom" onclick="resizeToOverlayLayers()">Reset Zoom</button>
-    </section>
+    </div>
 </section>
-<section id="map" style="display: flex; flex-grow: 4;">
+<section id="map">
     <script src="assets/scripts/functions.js"></script>
     <script src="assets/scripts/layers.js"></script>
     <script async src="predicts.js"></script>
@@ -87,6 +81,18 @@
             updatePredictLayers();
         };
     </script>
+</section>
+<section>
+    <div class="controls">
+        <button id="reset_zoom" onclick="resizeToOverlayLayers()">Zoom To Predicts</button>
+        <a class="box" href="#" onClick="document.location.href=downloadPredictsKML();">
+            Download Predicts
+        </a>
+        <a class="box" href="#"
+           onClick="document.location.href=downloadURI('/assets/data/controlled_airspace.kmz', 'CONTROLLED_AIRSPACE_LAYER.kmz');">
+            Download Airspace
+        </a>
+    </div>
 </section>
 </body>
 </html>
