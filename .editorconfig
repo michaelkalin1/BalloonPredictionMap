@@ -224,18 +224,11 @@ ij_javascript_while_brace_force = never
 ij_javascript_while_on_new_line = false
 ij_javascript_wrap_comments = true
 
-[{*.har, *.jsb2, *.jsb3, *.json, .babelrc, .eslintrc, .prettierrc, .stylelintrc, bowerrc, jest.config}]
-indent_size = 2
+[{*.har, *.jsb2, *.jsb3, *.json, *.geojson, .babelrc, .eslintrc, .prettierrc, .stylelintrc, bowerrc, jest.config}]
 ij_json_keep_blank_lines_in_code = 0
 ij_json_keep_indents_on_empty_lines = false
-ij_json_keep_line_breaks = true
 ij_json_space_after_colon = true
 ij_json_space_after_comma = true
-ij_json_space_before_colon = true
-ij_json_space_before_comma = false
-ij_json_spaces_within_braces = false
-ij_json_spaces_within_brackets = false
-ij_json_wrap_long_lines = false
 
 [{*.htm, *.html, *.ng, *.sht, *.shtm, *.shtml}]
 ij_html_add_new_line_before_tags = body, div, p, form, h1, h2, h3
