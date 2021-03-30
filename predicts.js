@@ -11,7 +11,7 @@ const API_URLS = {
     'CUSF': 'https://predict.cusf.co.uk/api/v1/', 'lukerenegar': 'https://predict.lukerenegar.com/api/v1.1/'
 };
 
-const API_SOURCE = 'lukerenegar';
+const API_SOURCE = 'CUSF';
 
 OVERLAY_LAYERS['reference']['McDonald\'s Locations'] = MCDONALDS_LOCATIONS_LAYER;
 OVERLAY_LAYERS['reference']['Launch Locations'] = LAUNCH_LOCATIONS_LAYER;
