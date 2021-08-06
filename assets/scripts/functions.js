@@ -49,22 +49,22 @@ function highlightAndPopupOnClick(feature, layer) {
 
 /* return the overall bounds of multiple layers */
 function bounds(layers) {
-    let northeast = layers[0].getBounds()._northEast;
-    let southwest = layers[0].getBounds()._southWest;
+    let northeast = layers[0].getBounds().getNorthEast();
+    let southwest = layers[0].getBounds().getSouthWest();
 
     for (let layer of layers) {
         let bounds = layer.getBounds();
-        if (bounds._northEast.lat > northeast.lat) {
-            northeast.lat = bounds._northEast.lat;
+        if (bounds.getNorth() > northeast.lat) {
+            northeast.lat = bounds.getNorth();
         }
-        if (bounds._northEast.lng > northeast.lng) {
-            northeast.lng = bounds._northEast.lng;
+        if (bounds.getEast() > northeast.lng) {
+            northeast.lng = bounds.getEast();
         }
-        if (bounds._southWest.lat < southwest.lat) {
-            southwest.lat = bounds._southWest.lat;
+        if (bounds.getSouth() < southwest.lat) {
+            southwest.lat = bounds.getSouth();
         }
-        if (bounds._southWest.lng < southwest.lng) {
-            southwest.lng = bounds._southWest.lng;
+        if (bounds.getWest() < southwest.lng) {
+            southwest.lng = bounds.getWest();
         }
     }
 
