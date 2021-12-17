@@ -36,7 +36,7 @@ function getPredictLineString(api_url, name, address, longitude, latitude, datet
                     'type': 'LineString', 'coordinates': []
                 }, 'properties': {
                     'name': name,
-                    'model_run': response['request']['dataset'] + ' UTC',
+                    'dataset': response['request']['dataset'] + ' UTC',
                     'address': address,
                     'location': '(' + (longitude - 360).toFixed(5) + ', ' + latitude.toFixed(5) + ')'
                 }
