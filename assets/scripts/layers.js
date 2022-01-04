@@ -1,6 +1,8 @@
-let DATA_DIRECTORY = './assets/data/';
+if (typeof DATA_DIRECTORY === 'undefined') {
+    var DATA_DIRECTORY = './assets/data/';
+}
 if (typeof LAUNCH_LOCATIONS_FILENAME === 'undefined') {
-    var LAUNCH_LOCATIONS_FILENAME = 'launch_locations.geojson';
+    var LAUNCH_LOCATIONS_FILENAME = './launch_locations.geojson';
 }
 
 let BASE_LAYERS = {
