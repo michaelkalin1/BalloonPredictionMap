@@ -26,8 +26,8 @@ function highlightFeature(feature) {
 
 function highlightFeatureOnClick(feature, layer) {
     layer.on('click', function (click_event) {
-        if (SELECTED_FEATURE != null) {
-            SELECTED_FEATURE.setStyle(SELECTED_FEATURE_ORIGINAL_STYLE(SELECTED_FEATURE));
+        if (SELECTED_FEATURE != null && SELECTED_FEATURE_ORIGINAL_STYLE != null) {
+            SELECTED_FEATURE.setStyle(SELECTED_FEATURE_ORIGINAL_STYLE(SELECTED_FEATURE.feature));
         }
 
         SELECTED_FEATURE = click_event.target;
