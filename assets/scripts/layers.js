@@ -58,7 +58,13 @@ let MCDONALDS_LOCATIONS_LAYER = L.geoJson.ajax(DATA_DIRECTORY + 'mcdonalds_locat
 
 /* load public schools layer from ArcGIS Online */
 let PUBLIC_SCHOOLS_LAYER = L.esri.featureLayer({
-    url: 'https://services1.arcgis.com/Ua5sjt3LWTPigjyD/arcgis/rest/services/Public_School_Location_201819/FeatureServer/0'
+    url: 'https://services1.arcgis.com/Ua5sjt3LWTPigjyD/arcgis/rest/services/Public_School_Location_201819/FeatureServer/0',
+    'onEachFeature': popupFeaturePropertiesOnClick,
+    'pointToLayer': function (feature, latlng) {
+        return L.circleMarker(latlng, {
+            'radius': 4, 'fillColor': '#24ee2e', 'color': '#000', 'weight': 1, 'opacity': 1, 'fillOpacity': 0.8
+        });
+    }
 });
 
 /* dictionary to contain toggleable layers */
