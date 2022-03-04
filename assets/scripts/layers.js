@@ -56,10 +56,15 @@ let MCDONALDS_LOCATIONS_LAYER = L.geoJson.ajax(DATA_DIRECTORY + 'mcdonalds_locat
     }
 });
 
+/* load public schools layer from ArcGIS Online */
+let PUBLIC_SCHOOLS_LAYER = L.esri.featureLayer({
+    url: 'https://services1.arcgis.com/Ua5sjt3LWTPigjyD/arcgis/rest/services/Public_School_Location_201819/FeatureServer/0'
+});
+
 /* dictionary to contain toggleable layers */
 let OVERLAY_LAYERS = {
     'reference': {
-        'Controlled Airspace': CONTROLLED_AIRSPACE_LAYER, 'Uncontrolled Airspace': UNCONTROLLED_AIRSPACE_LAYER
+        'Controlled Airspace': CONTROLLED_AIRSPACE_LAYER, 'Uncontrolled Airspace': UNCONTROLLED_AIRSPACE_LAYER,
     }
 };
 

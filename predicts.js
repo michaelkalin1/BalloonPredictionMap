@@ -15,6 +15,7 @@ const API_SOURCE = 'CUSF';
 
 OVERLAY_LAYERS['reference']['McDonald\'s Locations'] = MCDONALDS_LOCATIONS_LAYER;
 OVERLAY_LAYERS['reference']['Launch Locations'] = LAUNCH_LOCATIONS_LAYER;
+OVERLAY_LAYERS['reference']['Public Schools'] = PUBLIC_SCHOOLS_LAYER;
 OVERLAY_LAYERS['predicts'] = {};
 
 let LAYER_CONTROL = L.control.groupedLayers(BASE_LAYERS, OVERLAY_LAYERS);
