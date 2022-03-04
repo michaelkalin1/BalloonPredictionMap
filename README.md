@@ -22,7 +22,9 @@ This website is entirely client-based, so can either be hosted on a server or vi
       ```
 3. open `index.html` in a web browser
 
-## Customization
+## Hosting your Own Copy
+
+Feel free to download this website, fork this repository, do whatever you want with this code.
 
 To customize launch locations, edit the file `launch_locations.geojson` with launch sites in the following format:
 
@@ -46,6 +48,9 @@ To customize launch locations, edit the file `launch_locations.geojson` with lau
     }
 }
 ```
+
+Also, you can change the starting location of the map view here:
+https://github.com/zacharyburnett/BalloonPredictionMap/blob/7a8972299190ccea2fa9e5fa07b0e31dda305e7e/index.html#L67
 
 ## Examples
 
