@@ -32,6 +32,14 @@
 <section style="display: flex; justify-content: space-between;">
     <div class="controls" style="flex-grow: 2;">
         <div class="box labeled_input" style="display: flex; flex-wrap: wrap;">
+            <label for="predict_type">Predict Type: </label>
+
+            <select name="predict_types" id="predict_types">
+                <option value="standard">Standard</option>
+                <option value="float">Float</option>
+            </select>
+        </div>
+        <div class="box labeled_input" style="display: flex; flex-wrap: wrap;">
             <input id="launch_date" onchange="updatePredictLayers()" required="required" title="launch date" type="date">
 
             <input id="launch_time" onchange="updatePredictLayers()" required="required" title="launch time" type="time" value="08:00">
