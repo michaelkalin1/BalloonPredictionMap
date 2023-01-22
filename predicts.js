@@ -353,6 +353,12 @@ async function setCustomLaunchLocation(click_event) {
     LAYER_CONTROL.addOverlay(CUSTOM_LAUNCH_LOCATION_LAYER, CUSTOM_LAUNCH_LOCATION_NAME, 'reference');
 }
 
+function copyDateToFloatEnd() {
+    let launch_date = document.getElementById('launch_date');
+    let float_end_date = document.getElementById('float_end_date');
+    float_end_date.value = launch_date.value;
+}
+
 function downloadPredictsKML() {
     let active_predict_layers = LAYER_CONTROL.getActiveOverlayLayers()['predicts'];
 

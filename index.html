@@ -43,7 +43,7 @@
             </select>
         </div>
         <div class="box labeled_input">
-            <input id="launch_date" onchange="updatePredictLayers()" required="required" title="launch date" type="date">
+            <input id="launch_date" onchange="updatePredictLayers(); copyDateToFloatEnd()" required="required" title="launch date" type="date">
 
             <input id="launch_time" onchange="updatePredictLayers()" required="required" title="launch time" type="time" value="08:00">
         </div>
