@@ -225,36 +225,28 @@ async function updatePredictLayers(resize = false) {
 
     let predict_type = document.getElementById('predict_type').value;
 
+    let date = document.getElementById('launch_date').value.split('-');
+    let year = date[0];
+    let month = date[1] - 1;
+    let day = date[2];
     let time = document.getElementById('launch_time').value.split(':');
+    let hour = time[0];
+    let minute = time[1];
 
-    let hour = (parseInt(time[0]) + (UTC_OFFSET_MINUTES / 60));
-    if (hour < 10) {
-        hour = '0' + hour;
-    }
-
-    let minute = (parseInt(time[1]) + (UTC_OFFSET_MINUTES % 60));
-    if (minute < 10) {
-        minute = '0' + minute;
-    }
-
+    let float_end_date = document.getElementById('float_end_date').value.split('-');
+    let float_end_year = float_end_date[0];
+    let float_end_month = float_end_date[1] - 1;
+    let float_end_day = float_end_date[2];
     let float_end_time = document.getElementById('float_end_time').value.split(':');
+    let float_end_hour = float_end_time[0];
+    let float_end_minute = float_end_time[1];
 
-    let float_end_hour = (parseInt(float_end_time[0]) + (UTC_OFFSET_MINUTES / 60));
-    if (float_end_hour < 10) {
-        float_end_hour = '0' + float_end_hour;
-    }
-
-    let float_end_minute = (parseInt(float_end_time[1]) + (UTC_OFFSET_MINUTES % 60));
-    if (float_end_minute < 10) {
-        float_end_minute = '0' + float_end_minute;
-    }
-
-    let launch_datetime_utc = document.getElementById('launch_date').value + 'T' + hour + ':' + minute + ':00Z';
+    let launch_datetime_utc = new Date(year, month, day, hour, minute, 0).toISOString();
     let ascent_rate = document.getElementById('ascent_rate').value;
     let burst_altitude = document.getElementById('burst_altitude').value;
     let sea_level_descent_rate = document.getElementById('sea_level_descent_rate').value;
     let float_altitude = document.getElementById('float_altitude').value;
-    let float_end_datetime_utc = document.getElementById('float_end_date').value + 'T' + float_end_hour + ':' + float_end_minute + ':00Z';
+    let float_end_datetime_utc = new Date(float_end_year, float_end_month, float_end_day, float_end_hour, float_end_minute, 0).toISOString();
 
     removePredictLayers();
 
