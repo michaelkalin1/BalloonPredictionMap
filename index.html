@@ -39,7 +39,7 @@
             <select name="predict_type" id="predict_type">
                 <option value="standard">Standard</option>
                 <option value="float">Float</option>
-                <option value="advanced_float">Alternative Float (do not use)</option>
+                <option value="alternative_float">Alternative Float (do not use)</option>
             </select>
         </div>
         <div class="box labeled_input">
@@ -96,6 +96,12 @@
                 <label for="float_duration">Float Duration (mins): </label>
 
                 <input id="float_duration" onchange="updatePredictLayers()" required="required" style="width: 8ch;" title="float altitude" type="number" value="60">
+            </div>
+            <div class="box labeled_input">
+                <label for="sea_level_descent_rate">S.L. Descent Rate (m/s): </label>
+
+                <input id="sea_level_descent_rate" onchange="updatePredictLayers()" required="required" style="width: 6ch;"
+                    title="expected descent rate (at sea level)" type="number" value="9">
             </div>
         </div>
 
