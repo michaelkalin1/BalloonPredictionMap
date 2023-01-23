@@ -81,7 +81,7 @@
                 <input id="float_end_time" onchange="updatePredictLayers()" required="required" title="float end time" type="time" value="10:00">
             </div>
         </div>
-        <div id="advanced_float_controls" style="display: contents;">
+        <div id="alternative_float_controls" style="display: contents;">
             <div class="box labeled_input">
                 <label for="float_altitude">Float Altitude (m): </label>
 
@@ -113,26 +113,26 @@
     $(document).ready(function(){
         $("#standard_controls").show();
         $("#float_controls").hide();
-        $("#advanced_float_controls").hide();
+        $("#alternative_float_controls").hide();
 
         $('#predict_type').on('change', function() {
         if ( this.value == 'standard')
         {
             $("#standard_controls").show();
             $("#float_controls").hide();
-            $("#advanced_float_controls").hide();
+            $("#alternative_float_controls").hide();
         }
         else if ( this.value == 'float')
         {
             $("#standard_controls").hide();
             $("#float_controls").show();
-            $("#advanced_float_controls").hide();
+            $("#alternative_float_controls").hide();
         }
-        else if ( this.value == 'advanced_float')
+        else if ( this.value == 'alternative_float')
         {
             $("#standard_controls").hide();
             $("#float_controls").hide();
-            $("#advanced_float_controls").show();
+            $("#alternative_float_controls").show();
         }
         });
     });
