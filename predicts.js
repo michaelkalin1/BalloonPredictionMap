@@ -87,70 +87,116 @@ function getFloatPredictLineString(api_url, name, address, longitude, latitude, 
     });
 }
 
-function getAlternativeFloatPredictLineString(api_url, name, address, longitude, latitude, datetime_utc, ascent_rate, float_altitude, float_ascent_rate, float_duration, sea_level_descent_rate) {
-    let predict1 = new Promise(function (resolve, reject) {
-        AJAX.get(api_url, {
-            'launch_longitude': longitude,
-            'launch_latitude': latitude,
-            'launch_datetime': datetime_utc,
-            'ascent_rate': ascent_rate,
-            'burst_altitude': float_altitude,
-            'descent_rate': 99999
-        }, function (response) {
-            let output_feature = {
-                'type': 'Feature', 'geometry': {
-                    'type': 'LineString', 'coordinates': []
-                }, 'properties': {
-                    'name': name,
-                    'dataset': response['request']['dataset'] + ' UTC',
-                    'address': address,
-                    'location': '(' + (longitude - 360).toFixed(5) + ', ' + latitude.toFixed(5) + ')'
-                }
-            };
+function getExperimentalFloatPredictLineString(api_url, name, address, longitude, latitude, datetime_utc, ascent_rate, float_altitude, float_ascent_rate, float_duration, sea_level_descent_rate) {
+    let ascent_end_datetime_utc;
+    let ascent_end_longitude;
+    let ascent_end_latitude;
+    let float_end_datetime_utc = new Date(datetime_utc);
+    float_end_datetime_utc.setTime(float_end_datetime_utc.getTime() + parseInt(float_duration)*60*1000);
+    let actual_float_altitude;
+    let output_feature = [];
 
-            for (let stage of response['prediction']) {
-                for (let entry of stage['trajectory']) {
-                    output_feature['geometry']['coordinates'].push([entry['longitude'] - 360, entry['latitude'], entry['altitude']]);
-                }
-            }
+    var ascent_promise = function(){
+        // console.log("Getting ascent prediction:");
+        return new Promise(function (resolve, reject) {
+            AJAX.get(api_url, {
+                'profile': 'standard_profile',
+                'launch_longitude': longitude,
+                'launch_latitude': latitude,
+                'launch_datetime': datetime_utc,
+                'ascent_rate': ascent_rate,
+                'burst_altitude': float_altitude,
+                'descent_rate': 99999
+            }, function (response) {
+                output_feature[0] = {
+                    'type': 'Feature', 'geometry': {
+                        'type': 'LineString', 'coordinates': []
+                    }, 'properties': {
+                        'name': name,
+                        'dataset': response['request']['dataset'] + ' UTC',
+                        'address': address,
+                        'location': '(' + (longitude - 360).toFixed(5) + ', ' + latitude.toFixed(5) + ')',
+                        'stage': 'ascent'
+                    }
+                };
+    
+                let ascent_trajectory = response['prediction'][0]['trajectory'];
 
-            resolve(output_feature);
+                for (let entry of ascent_trajectory) {
+                    output_feature[0]['geometry']['coordinates'].push([entry['longitude'] - 360, entry['latitude'], entry['altitude']]);
+                }
+
+                ascent_end_datetime_utc = ascent_trajectory[ascent_trajectory.length-1]['datetime'];
+                ascent_end_longitude = ascent_trajectory[ascent_trajectory.length-1]['longitude'];
+                ascent_end_latitude = ascent_trajectory[ascent_trajectory.length-1]['latitude'];
+                actual_float_altitude = ascent_trajectory[ascent_trajectory.length-1]['altitude'];
+                
+                // console.log(response);
+                // console.log("\tOutput_Feature: ");
+                // console.log(output_feature);
+                resolve()
+            });
         });
-    });
+    };
 
-    let predict2 = new Promise(function (resolve, reject) {
-        AJAX.get(api_url, {
-            'launch_longitude': longitude,
-            'launch_latitude': latitude,
-            'launch_datetime': datetime_utc,
-            'launch_altitude': float_altitude,
-            'ascent_rate': float_ascent_rate,
-            'burst_altitude': parseInt(float_altitude) + float_ascent_rate*float_duration*60,
-            'descent_rate': sea_level_descent_rate
-        }, function (response) {
-            let output_feature = {
-                'type': 'Feature', 'geometry': {
-                    'type': 'LineString', 'coordinates': []
-                }, 'properties': {
-                    'name': name,
-                    'dataset': response['request']['dataset'] + ' UTC',
-                    'address': address,
-                    'location': '(' + (longitude - 360).toFixed(5) + ', ' + latitude.toFixed(5) + ')'
+    var float_promise = function(){
+        // console.log("Getting float and descent prediction");
+        return new Promise(function (resolve, reject) {
+            AJAX.get(api_url, {
+                'profile': 'standard_profile',
+                'launch_longitude': ascent_end_longitude,
+                'launch_latitude': ascent_end_latitude,
+                'launch_datetime': ascent_end_datetime_utc,
+                'launch_altitude': actual_float_altitude,
+                'ascent_rate': float_ascent_rate <= 0.1 ? 0.1 : float_ascent_rate, // Ternaries here set a lower cap on float ascent rate of 0.1 m/s
+                'burst_altitude': parseInt(actual_float_altitude) + (float_ascent_rate <= 0.1 ? 0.1*float_duration*60 : float_ascent_rate*float_duration*60),
+                'descent_rate': sea_level_descent_rate
+            }, function (response) {
+                output_feature[1] = {
+                    'type': 'Feature', 'geometry': {
+                        'type': 'LineString', 'coordinates': []
+                    }, 'properties': {
+                        'name': name,
+                        'dataset': response['request']['dataset'] + ' UTC',
+                        'address': address,
+                        'location': '(' + (longitude - 360).toFixed(5) + ', ' + latitude.toFixed(5) + ')',
+                        'stage': 'float'
+                    }
+                };
+                output_feature[2] = {
+                    'type': 'Feature', 'geometry': {
+                        'type': 'LineString', 'coordinates': []
+                    }, 'properties': {
+                        'name': name,
+                        'dataset': response['request']['dataset'] + ' UTC',
+                        'address': address,
+                        'location': '(' + (longitude - 360).toFixed(5) + ', ' + latitude.toFixed(5) + ')',
+                        'stage': 'descent'
+                    }
+                };
+                
+                let float_trajectory = response['prediction'][0]['trajectory'];
+                let descent_trajectory = response['prediction'][1]['trajectory'];
+
+                for (let entry of float_trajectory) {
+                    output_feature[1]['geometry']['coordinates'].push([entry['longitude'] - 360, entry['latitude'], entry['altitude']]);
+                    
                 }
-            };
-
-            for (let stage of response['prediction']) {
-                for (let entry of stage['trajectory']) {
-                    output_feature['geometry']['coordinates'].push([entry['longitude'] - 360, entry['latitude'], entry['altitude']]);
+                for (let entry of descent_trajectory) {
+                    output_feature[2]['geometry']['coordinates'].push([entry['longitude'] - 360, entry['latitude'], entry['altitude']]);
+                    
                 }
-            }
+                // console.log(response);
+                // console.log("\tOutput_Feature: ");
+                // console.log(output_feature);
+                resolve(output_feature);
+            });
+        })
+    }
 
-            resolve(output_feature);
-        });
-    });
-
-    console.log(predict1)
-    console.log(predict2)
+    let predict = ascent_promise().then(float_promise);
+    // console.log(predict);
+    return predict;
 }
 
 /* retrieve predict for a single launch location as a GeoJSON FeatureCollection */
@@ -220,10 +266,11 @@ async function getPredictLayer(api_url, predict_type = null, launch_location_nam
             console.log('Prediction error: ' + response.status + ' ' + response.error);
         });
     }
-    else if (predict_type == 'alternative_float')
+    else if (predict_type == 'experimental_float')
     {
-        await getAlternativeFloatPredictLineString(api_url, launch_location_name, address, launch_longitude, launch_latitude, launch_datetime, ascent_rate, float_altitude, float_ascent_rate, float_duration, sea_level_descent_rate).then(function (feature) {
-            predict_geojson['features'].push(feature);
+        await getExperimentalFloatPredictLineString(api_url, launch_location_name, address, launch_longitude, launch_latitude, launch_datetime, ascent_rate, float_altitude, float_ascent_rate, float_duration, sea_level_descent_rate).then(function (feature) {
+            // predict_geojson['features'].push(feature);
+            predict_geojson['features'] = predict_geojson['features'].concat(feature);
         }).catch(function (response) {
             console.log('Prediction error: ' + response.status + ' ' + response.error);
         });
@@ -240,6 +287,21 @@ async function getPredictLayer(api_url, predict_type = null, launch_location_nam
     let predict_layer_style = function (feature) {
         if (feature.feature != null) {
             feature = feature.feature;
+        }
+        if(feature.properties.stage != null){
+            if(feature.properties.stage == 'ascent'){
+                return {
+                    'weight': 5, 'color': '#f0f'
+                };
+            } else if(feature.properties.stage == 'float'){
+                return {
+                    'weight': 5, 'color': '#0f0'
+                };
+            } else if(feature.properties.stage == 'descent'){
+                return {
+                    'weight': 5, 'color': '#f90'
+                };
+            }
         }
 
         return {

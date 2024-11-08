@@ -42,17 +42,17 @@ let UNCONTROLLED_AIRSPACE_LAYER = L.geoJson.ajax(DATA_DIRECTORY + 'uncontrolled_
     }, 'attribution': 'Airspace &copy; FAA'
 });
 
-let ECLIPSE_2023_LAYER = L.geoJson.ajax(DATA_DIRECTORY + 'eclipse23.geojson', {
-    'onEachFeature': popupFeaturePropertiesOnClick, 'style': function (feature) {
-        return {'color': '#71797e', 'dashArray': '4'};
-    }, 'attribution': '&copy; Xavier M. Jubier'
-});
+// let ECLIPSE_2023_LAYER = L.geoJson.ajax(DATA_DIRECTORY + 'eclipse23.geojson', {
+//     'onEachFeature': popupFeaturePropertiesOnClick, 'style': function (feature) {
+//         return {'color': '#71797e', 'dashArray': '4'};
+//     }, 'attribution': '&copy; Xavier M. Jubier'
+// });
 
-let ECLIPSE_2024_LAYER = L.geoJson.ajax(DATA_DIRECTORY + 'eclipse24.geojson', {
-    'onEachFeature': popupFeaturePropertiesOnClick, 'style': function (feature) {
-        return {'color': '#71797e', 'dashArray': '4'};
-    }, 'attribution': '&copy; Xavier M. Jubier'
-});
+// let ECLIPSE_2024_LAYER = L.geoJson.ajax(DATA_DIRECTORY + 'eclipse24.geojson', {
+//     'onEachFeature': popupFeaturePropertiesOnClick, 'style': function (feature) {
+//         return {'color': '#71797e', 'dashArray': '4'};
+//     }, 'attribution': '&copy; Xavier M. Jubier'
+// });
 
 /* asynchronously load launch locations from GeoJSON file */
 let LAUNCH_LOCATIONS_LAYER = L.geoJson.ajax(LAUNCH_LOCATIONS_FILENAME, {
@@ -82,7 +82,7 @@ let PUBLIC_SCHOOLS_LAYER = L.esri.featureLayer({
 /* dictionary to contain toggleable layers */
 let OVERLAY_LAYERS = {
     'reference': {
-        'Controlled Airspace': CONTROLLED_AIRSPACE_LAYER, 'Uncontrolled Airspace': UNCONTROLLED_AIRSPACE_LAYER, '2023 Annular Eclipse': ECLIPSE_2023_LAYER, '2024 Total Solar Eclipse': ECLIPSE_2024_LAYER, 
+        'Controlled Airspace': CONTROLLED_AIRSPACE_LAYER, 'Uncontrolled Airspace': UNCONTROLLED_AIRSPACE_LAYER//, '2023 Annular Eclipse': ECLIPSE_2023_LAYER, '2024 Total Solar Eclipse': ECLIPSE_2024_LAYER, 
     }
 };
 

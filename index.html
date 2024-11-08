@@ -39,13 +39,13 @@
             <select name="predict_type" id="predict_type">
                 <option value="standard">Standard</option>
                 <option value="float">Float</option>
-                <option value="alternative_float">Alternative Float (do not use)</option>
+                <option value="experimental_float">Experimental Float</option>
             </select>
         </div>
         <div class="box labeled_input">
             <input id="launch_date" onchange="updatePredictLayers(); copyDateToFloatEnd()" required="required" title="launch date" type="date">
 
-            <input id="launch_time" onchange="updatePredictLayers()" required="required" title="launch time" type="time" value="08:00">
+            <input id="launch_time" onchange="updatePredictLayers()" required="required" title="launch time" type="time" value="10:00">
         </div>
         <div class="box labeled_input">
             <label for="ascent_rate">Ascent Rate (m/s): </label>
@@ -81,7 +81,7 @@
                 <input id="float_end_time" onchange="updatePredictLayers()" required="required" title="float end time" type="time" value="10:00">
             </div>
         </div>
-        <div id="alternative_float_controls" style="display: contents;">
+        <div id="experimental_float_controls" style="display: contents;">
             <div class="box labeled_input">
                 <label for="float_altitude">Float Altitude (m): </label>
 
@@ -113,26 +113,26 @@
     $(document).ready(function(){
         $("#standard_controls").show();
         $("#float_controls").hide();
-        $("#alternative_float_controls").hide();
+        $("#experimental_float_controls").hide();
 
         $('#predict_type').on('change', function() {
         if ( this.value == 'standard')
         {
             $("#standard_controls").show();
             $("#float_controls").hide();
-            $("#alternative_float_controls").hide();
+            $("#experimental_float_controls").hide();
         }
         else if ( this.value == 'float')
         {
             $("#standard_controls").hide();
             $("#float_controls").show();
-            $("#alternative_float_controls").hide();
+            $("#experimental_float_controls").hide();
         }
-        else if ( this.value == 'alternative_float')
+        else if ( this.value == 'experimental_float')
         {
             $("#standard_controls").hide();
             $("#float_controls").hide();
-            $("#alternative_float_controls").show();
+            $("#experimental_float_controls").show();
         }
         });
     });
