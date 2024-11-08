@@ -23,6 +23,8 @@ MAP.addControl(LAYER_CONTROL);
 
 /* retrieve a single predict from the given API and convert to a GeoJSON Feature (LineString) */
 function getStandardPredictLineString(api_url, name, address, longitude, latitude, datetime_utc, ascent_rate, burst_altitude, sea_level_descent_rate) {
+    let output_feature = [];
+
     return new Promise(function (resolve, reject) {
         AJAX.get(api_url, {
             'launch_longitude': longitude,
@@ -32,21 +34,38 @@ function getStandardPredictLineString(api_url, name, address, longitude, latitud
             'burst_altitude': burst_altitude,
             'descent_rate': sea_level_descent_rate
         }, function (response) {
-            let output_feature = {
+            output_feature[0] = {
                 'type': 'Feature', 'geometry': {
                     'type': 'LineString', 'coordinates': []
                 }, 'properties': {
                     'name': name,
                     'dataset': response['request']['dataset'] + ' UTC',
                     'address': address,
-                    'location': '(' + (longitude - 360).toFixed(5) + ', ' + latitude.toFixed(5) + ')'
+                    'location': '(' + (longitude - 360).toFixed(5) + ', ' + latitude.toFixed(5) + ')',
+                    'stage': 'ascent'
+                }
+            };
+            output_feature[1] = {
+                'type': 'Feature', 'geometry': {
+                    'type': 'LineString', 'coordinates': []
+                }, 'properties': {
+                    'name': name,
+                    'dataset': response['request']['dataset'] + ' UTC',
+                    'address': address,
+                    'location': '(' + (longitude - 360).toFixed(5) + ', ' + latitude.toFixed(5) + ')',
+                    'stage': 'descent'
                 }
             };
 
-            for (let stage of response['prediction']) {
-                for (let entry of stage['trajectory']) {
-                    output_feature['geometry']['coordinates'].push([entry['longitude'] - 360, entry['latitude'], entry['altitude']]);
-                }
+            let ascent_trajectory = response['prediction'][0]['trajectory'];
+            let descent_trajectory = response['prediction'][1]['trajectory'];
+
+            for (let entry of ascent_trajectory) {
+                output_feature[0]['geometry']['coordinates'].push([entry['longitude'] - 360, entry['latitude'], entry['altitude']]);
+            }
+            for (let entry of descent_trajectory) {
+                output_feature[1]['geometry']['coordinates'].push([entry['longitude'] - 360, entry['latitude'], entry['altitude']]);
+                
             }
 
             resolve(output_feature);
@@ -278,7 +297,8 @@ async function getPredictLayer(api_url, predict_type = null, launch_location_nam
     else
     {
         await getStandardPredictLineString(api_url, launch_location_name, address, launch_longitude, launch_latitude, launch_datetime, ascent_rate, burst_altitude, sea_level_descent_rate).then(function (feature) {
-            predict_geojson['features'].push(feature);
+            // predict_geojson['features'].push(feature);
+            predict_geojson['features'] = predict_geojson['features'].concat(feature);
         }).catch(function (response) {
             console.log('Prediction error: ' + response.status + ' ' + response.error);
         });
@@ -291,7 +311,7 @@ async function getPredictLayer(api_url, predict_type = null, launch_location_nam
         if(feature.properties.stage != null){
             if(feature.properties.stage == 'ascent'){
                 return {
-                    'weight': 5, 'color': '#f0f'
+                    'weight': 5, 'color': feature.properties['name'] === CUSTOM_LAUNCH_LOCATION_NAME ? '#f00' : '#f0f'
                 };
             } else if(feature.properties.stage == 'float'){
                 return {
