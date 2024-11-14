@@ -125,7 +125,7 @@ function getExperimentalFloatPredictLineString(api_url, name, address, longitude
                 'launch_datetime': datetime_utc,
                 'ascent_rate': ascent_rate,
                 'burst_altitude': float_altitude,
-                'descent_rate': 99999
+                'descent_rate': 99
             }, function (response) {
                 output_feature[0] = {
                     'type': 'Feature', 'geometry': {
